@@ -32,16 +32,21 @@ userSchema.findById = function (cb) {
 const User = mongoose.model("Users", userSchema);
 
 exports.findByEmail = (email) => {
-  return User.find({ email: email });
+  return User.find({ email: email }).populate(
+    "friends",
+    "_id firstName lastName email"
+  );
 };
+
 exports.findById = (id) => {
-  return User.findById(id).then((result) => {
-    result = result.toJSON();
-    delete result._id;
-    delete result.__v;
-    // delete? why!
-    return result;
-  });
+  return User.findById(id)
+    .populate("friends", "_id firstName lastName email")
+    .then((result) => {
+      result = result.toJSON();
+      delete result._id;
+      delete result.__v;
+      return result;
+    });
 };
 
 exports.createUser = (userData) => {

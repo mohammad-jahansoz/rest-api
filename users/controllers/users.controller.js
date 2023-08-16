@@ -60,13 +60,15 @@ exports.removeById = (req, res) => {
 exports.addFriend = (req, res) => {
   const { friendId } = req.params;
   const { userId } = req.jwt;
-  UserModel.addFriend(userId, friendId);
-  res.status(204).send({});
+  UserModel.addFriend(userId, friendId).then((result) => {
+    res.status(204).send({});
+  });
 };
 
 exports.removeFriend = (req, res) => {
   const { friendId } = req.params;
   const { userId } = req.jwt;
-  UserModel.removeFriend(userId, friendId);
-  res.status(204).send({});
+  UserModel.removeFriend(userId, friendId).then((result) => {
+    res.status(204).send({});
+  });
 };
