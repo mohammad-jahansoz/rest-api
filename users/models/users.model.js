@@ -38,15 +38,31 @@ exports.findByEmail = (email) => {
   );
 };
 
-exports.findById = (id) => {
-  return User.findById(id)
-    .populate("friends", "_id firstName lastName email")
-    .then((result) => {
-      result = result.toJSON();
-      delete result._id;
-      delete result.__v;
-      return result;
-    });
+// exports.findById = (id, populate) => {
+//   return User.findById(id)
+//     .populate("friends", "_id firstName lastName email")
+//     .then((result) => {
+//       result = result.toJSON();
+//       delete result._id;
+//       delete result.__v;
+//       return result;
+//     });
+// };
+
+exports.findById = async (id, extendFriends) => {
+  let user;
+  if (extendFriends == "true") {
+    user = await User.findById(id).populate(
+      "friends",
+      "_id firstName lastName email"
+    );
+  } else {
+    user = await User.findById(id);
+  }
+  user = user.toJSON();
+  delete user._id;
+  delete user.__v;
+  return user;
 };
 
 exports.createUser = (userData) => {

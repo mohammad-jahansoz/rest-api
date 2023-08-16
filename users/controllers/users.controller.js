@@ -30,7 +30,8 @@ exports.list = (req, res) => {
 };
 
 exports.getById = (req, res) => {
-  UserModel.findById(req.params.userId).then((result) => {
+  const { extendFriends } = req.query;
+  UserModel.findById(req.params.userId, extendFriends).then((result) => {
     res.status(200).send(result);
   });
 };
