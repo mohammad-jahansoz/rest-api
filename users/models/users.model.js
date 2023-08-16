@@ -87,17 +87,34 @@ exports.removeById = (userId) => {
   });
 };
 
-// exports.addFriend = (userId, friendId) => {
-//   return User.findByIdAndUpdate(userId, { $push: { friends: friendId } });
-// };
 exports.addFriend = (userId, friendId) => {
   return new Promise((resolve, reject) => {
-    User.findByIdAndUpdate(userId, { $push: { friends: friendId } }, (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
+    User.findByIdAndUpdate(
+      userId,
+      { $addToSet: { friends: friendId } },
+      (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
       }
-    });
+    );
+  });
+};
+
+exports.removeFriend = (userId, friendId) => {
+  return new Promise((resolve, reject) => {
+    User.findByIdAndUpdate(
+      userId,
+      { $pull: { friends: { $eq: friendId } } },
+      (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      }
+    );
   });
 };

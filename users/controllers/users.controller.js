@@ -63,3 +63,10 @@ exports.addFriend = (req, res) => {
   UserModel.addFriend(userId, friendId);
   res.status(204).send({});
 };
+
+exports.removeFriend = (req, res) => {
+  const { friendId } = req.params;
+  const { userId } = req.jwt;
+  UserModel.removeFriend(userId, friendId);
+  res.status(204).send({});
+};
