@@ -33,12 +33,12 @@ exports.routesConfig = function (app) {
   ]);
   app.post("/users/friends/:friendId", [
     ValidationMiddleware.validJWTNeeded,
-    PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+    PermissionMiddleware.minimumPermissionLevelRequired(FREE),
     UsersController.addFriend,
   ]);
   app.delete("/users/friends/:friendId", [
     ValidationMiddleware.validJWTNeeded,
-    PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+    PermissionMiddleware.minimumPermissionLevelRequired(FREE),
     UsersController.removeFriend,
   ]);
 };
